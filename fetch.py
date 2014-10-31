@@ -1,7 +1,6 @@
 import urllib2 
 from urllib import urlopen
 import simplejson as json
-import pdb
 import zlib
 
 flag = True;
@@ -11,12 +10,11 @@ pagesize=100
 page = 1
 while(page!=2):
 
-	stackoverflow_url = 'https://api.stackexchange.com/2.2/users?fromdate=1293840000&todate=1412121600&order=asc&sort=reputation&site=stackoverflow&page=' + str(page) + '&pagesize=' + str(pagesize)
+	stackoverflow_url = 'https://api.stackexchange.com/2.2/users?fromdate=1293840000&todate=1412121600&order=asc&sort=reputation&site=stackoverflow&key=<enter key here>&page=' + str(page) + '&pagesize=' + str(pagesize)
 	url = urllib2.urlopen(stackoverflow_url)
 	decompressed_data=zlib.decompress(url.read(), 16+zlib.MAX_WBITS)
 	#json_data = open('users.txt')
 	data = json.loads(decompressed_data)
-	pdb.set_trace()
 	x = json.dumps(data['items'])
 	outfile.write(x[1:-1])
 	if(data['has_more'] == False):
@@ -24,10 +22,9 @@ while(page!=2):
 	 	break
 	page = page+1
 	outfile.write(",")
+	time.sleep(0.5);
 	print page, data['quota_remaining']
 
 outfile.close();
-
-print 
 
   
